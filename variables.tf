@@ -102,8 +102,8 @@ variable "instance_profile_path" {
     default = "/" 
 }
 
-variable "instance_policies" {
-  description = "ECS TASK (Container) permissions"
+variable "instance_profile_policies" {
+  description = "(Optional, default `[]`) List of Policies to be attached to Instance profile"
   default = []
 }
 

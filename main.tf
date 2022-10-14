@@ -40,8 +40,8 @@ module "iam_instance_profile" {
 
     source = "git::https://github.com/arjstack/terraform-aws-iam.git"
     
-    policies = var.instance_policies
-    service_linked_roles    = local.instance_roles
+    policies = var.instance_profile_policies
+    service_linked_roles    = local.instance_profile_roles
     role_default_tags       = merge(var.default_tags, var.instance_profile_tags)
     policy_default_tags     = merge(var.default_tags, var.instance_profile_tags)
 }
