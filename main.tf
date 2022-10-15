@@ -34,8 +34,8 @@ resource aws_launch_template "this" {
   }
 }
 
-# ECS Task Roles
-module "iam_instance_profile" {
+# Instance profile - IAm Role
+module "iam_instance_profile_role" {
     count = var.create_instance_profile ? 1 : 0
 
     source = "git::https://github.com/arjstack/terraform-aws-iam.git"
@@ -50,7 +50,7 @@ resource aws_iam_instance_profile "this" {
 
   count = var.create_instance_profile ? 1 : 0
 
-  role = module.iam_instance_profile[0].service_linked_roles[var.instance_profile_name].arn
+  role = module.iam_instance_profile_role[0].service_linked_roles[var.instance_profile_name].arn
 
   name        = local.instance_profile_name
   path        = var.instance_profile_path

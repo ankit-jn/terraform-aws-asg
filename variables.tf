@@ -103,10 +103,14 @@ variable "instance_profile_path" {
 }
 
 variable "instance_profile_policies" {
-  description = "(Optional, default `[]`) List of Policies to be attached to Instance profile"
+  description = "(Optional, default `[]`) List of Policies (to be provisioned) to be attached to Instance profile"
   default = []
 }
 
+variable "instance_profile_policy_arns" {
+  description = "(Optional, default `[]`) List of Policy ARNs (Already provisioned) to be attached to Instance profile"
+  default = []
+}
 
 ## Tags
 variable "default_tags" {
