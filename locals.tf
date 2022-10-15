@@ -13,7 +13,7 @@ locals {
                             ]  
                             policy_map = {
                                 policy_names = local.instance_profile_policy_names
-                                instance_policy_arns = var.instance_profile_policy_arns
+                                policy_arns = var.instance_profile_policy_arns
                             }   
                                             
                         }
