@@ -29,7 +29,6 @@ resource aws_launch_template "this" {
         for_each = var.create_instance_profile ? [1] : []
         content {
             arn     = aws_iam_instance_profile.this[0].arn
-            name    = var.instance_profile_name
         }
   }
 }
