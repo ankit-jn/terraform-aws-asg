@@ -84,6 +84,10 @@ Policy content to be add to the new policy (i.e. the policy for which arn is not
 
 | Name | Type | Description |
 |:------|:------|:------|
+| <a name="arn"></a> [arn](#output\_arn) |  `string` | ARN of Auto Scaling Group |
+| <a name="instance_profile_role_arn"></a> [instance_profile_role_arn](#output\_instance\_profile\_role\_arn) | `string` | ARN of IAM role provisioned for Instance Profile |
+| <a name="instance_profile_arn"></a> [instance_profile_arn](#output\_instance\_profile\_arn) | `string` | ARN of IAM Instance Profile |
+| <a name="launch_template"></a> [launch_template](#output\_launch\_template) | `map(string)` | Launch Template Details (`ID` and `ARN`) |
 
 ## Authors
 
