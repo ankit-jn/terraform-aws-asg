@@ -34,6 +34,8 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 ## Inputs
 ---
 
+#### ASG Specific Properties
+
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="name"></a> [name](#input\_name) | Name of the Auto Scaling Group | `string` |  | yes |  |
@@ -56,12 +58,22 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="image_id"></a> [image_id](#input\_image_id) | The AMI from which to launch the instance | `string` |  | yes |  |
 | <a name="user_data"></a> [user_data](#input\_user_data) | The Base64-encoded user data to provide when launching the instance | `string` |  | no |  |
 | <a name="health_check_type"></a> [health_check_type](#input\_health_check_type) | `EC2` or `ELB`. Controls how health checking is done | `string` |  | no |  |
+
+#### Instance Profile Specific Properties
+
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
 | <a name="create_instance_profile"></a> [create_instance_profile](#input\_create_instance_profile) | Flag to decide is an IAM instance profile is created | `bool` | `false` | no |  |
 | <a name="instance_profile_name"></a> [instance_profile_name](#input\_instance_profile_name) | The name of the instance profile | `string` | `<ASG Name>-instance-profile` | no |  |
 | <a name="instance_profile_path"></a> [instance_profile_path](#input\_instance_profile_path) | Path to the instance profile | `string` | `"/"` | no |  |
 | <a name="create_instance_profile_role"></a> [create_instance_profile_role](#input\_create_instance_profile_role) | Flag to decide if new role for Instance Profile is required or to use existing IAM Role | `bool` | `true` | no |  |
 | <a name="instance_profile_role_name"></a> [instance_profile_role_name](#input\_instance_profile_role_arn) | Name of the IAM role if `create_instance_profile_role` is false | `string` |  | no |  |
 | <a name="instance_profile_policies"></a> [instance_profile_policies](#instance_profile_policy) | List of Policies (to be provisioned) to be attached to Instance profile | `list` |  | no | <pre>[<br>   {<br>     "name" = "arjstack-custom-policy"<br>   },<br>   {<br>     "name"  = "AWSCloudTrail_ReadOnlyAccess"<br>     "arn"   = "arn:aws:iam::aws:policy/AWSCloudTrail_ReadOnlyAccess"<br>   }<br>]<br> |
+
+#### Tags Specific Properties
+
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
 | <a name="default_tags"></a> [default_tags](#input\_default_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no |  |
 | <a name="instance_profile_tags"></a> [instance_profile_tags](#input\_instance_profile_tags) | A map of tags to assign to Instance profile. | `map` | `{}` | no |  |
 
