@@ -1,3 +1,6 @@
+##########################################
+### ASG Specific Variables
+##########################################
 variable "name" {
     description = "(Required) Name of the Auto Scaling Group."
     type        = string
@@ -48,8 +51,9 @@ variable "protect_from_scale_in" {
   default     = false
 }
 
+##########################################
 ### Launch template Specific Variables
- 
+########################################## 
 variable "launch_template_name" {
     description = "(Optional) The name of the launch template."
     type        = string
@@ -84,6 +88,9 @@ variable "health_check_type" {
   default     = null
 }
 
+##########################################
+### Instance Profile Specific Variables
+##########################################
 variable "create_instance_profile" {
     description = "Flag to decide is an IAM instance profile is created"     
     type        = bool 
@@ -119,7 +126,9 @@ variable "instance_profile_policies" {
   default = []
 }
 
-## Tags
+##########################################
+### Tags
+##########################################
 variable "default_tags" {
   description = "(Optional) A map of tags to assign to all the resource."
   type        = map(any)
