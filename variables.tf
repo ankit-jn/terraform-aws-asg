@@ -25,7 +25,7 @@ variable "vpc_zone_identifier" {
 }
 
 variable "capacity_rebalance" {
-    description = "(Optional, default false) Whether capacity rebalance is enabled."
+    description = "(Optional) Whether capacity rebalance is enabled."
     type        = bool
     default     = false
 }
@@ -85,7 +85,7 @@ variable "health_check_type" {
 }
 
 variable "create_instance_profile" {
-    description = "Decide is an IAM instance profile is created"     
+    description = "Flag to decide is an IAM instance profile is created"     
     type        = bool 
     default     = false
 }
@@ -97,25 +97,25 @@ variable "instance_profile_name" {
 }
 
 variable "instance_profile_path" {
-    description = "(Optional, default \"/\") Path to the instance profile."  
+    description = "(Optional) Path to the instance profile."  
     type        = string
     default = "/" 
 }
 
 variable "create_instance_profile_role" {
-    description = "(Optional) Decide to create new role for Instance Profile or to use existing IAMrole"
+    description = "(Optional) Flag to decide if new role for Instance Profile is required or to use existing IAM Role"
     type        = bool
     default     = true
 }
 
 variable "instance_profile_role_arn" {
-    description = "(Optional) ARN of the IAM role if `craete_role` is false"
+    description = "(Optional) ARN of the IAM role if `create_instance_profile_role` is false"
     type        = string  
     default     = ""
 }
 
 variable "instance_profile_policies" {
-  description = "(Optional, default `[]`) List of Policies (to be provisioned) to be attached to Instance profile"
+  description = "(Optional) List of Policies (to be provisioned) to be attached to Instance profile"
   default = []
 }
 
