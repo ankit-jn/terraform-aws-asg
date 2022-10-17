@@ -5,7 +5,7 @@ output "arn" {
 
 output "instance_profile_role_arn" {
     description = "ARN of IAM role provisioned for Instance Profile"
-    value = var.create_instance_profile ? module.instance_profile_role[0].service_linked_roles[var.instance_profile_name].arn : ""
+    value = var.create_instance_profile_role ? module.instance_profile_role[0].service_linked_roles[var.instance_profile_name].arn : ""
 }
 
 output "instance_profile_arn" {
