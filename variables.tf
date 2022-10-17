@@ -108,8 +108,8 @@ variable "create_instance_profile_role" {
     default     = true
 }
 
-variable "instance_profile_role_arn" {
-    description = "(Optional) ARN of the IAM role if `create_instance_profile_role` is false"
+variable "instance_profile_role_name" {
+    description = "(Optional) Name of the IAM role if `create_instance_profile_role` is false"
     type        = string  
     default     = ""
 }

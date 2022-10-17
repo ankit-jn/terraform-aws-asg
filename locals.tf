@@ -6,7 +6,7 @@ locals {
     
     instance_profile_roles = [
                         {
-                            name = local.instance_profile_name
+                            name = format("%s-role", local.instance_profile_name)
                             description = "IAM Role for ECS Container Agent running on EC2 instances with trusted Entity - EC2 Service"
                             service_names = [
                                 "ec2.amazonaws.com"

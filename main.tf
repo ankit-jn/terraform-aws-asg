@@ -51,10 +51,14 @@ resource aws_iam_instance_profile "this" {
 
   count = var.create_instance_profile ? 1 : 0
 
-  role = var.create_instance_profile_role ? module.instance_profile_role[0].service_linked_roles[var.instance_profile_name].arn : var.instance_profile_role_arn
+  role = var.create_instance_profile_role ? format("%s-role", local.instance_profile_name) : var.instance_profile_role_name
 
   name        = local.instance_profile_name
   path        = var.instance_profile_path
 
   tags = merge(var.default_tags, var.instance_profile_tags)
+
+  depends_on = [
+    module.instance_profile_role
+  ]
 }
