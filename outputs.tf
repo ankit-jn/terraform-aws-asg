@@ -1,5 +1,5 @@
 output "instance_profile_role_arn" {
-    value = var.create_instance_profile ? module.iam_instance_profile_role[0].service_linked_roles[var.instance_profile_name].arn : ""
+    value = var.create_instance_profile ? module.instance_profile_role[0].service_linked_roles[var.instance_profile_name].arn : ""
 }
 
 output "instance_profile_arn" {

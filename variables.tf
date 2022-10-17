@@ -102,13 +102,20 @@ variable "instance_profile_path" {
     default = "/" 
 }
 
-variable "instance_profile_policies" {
-  description = "(Optional, default `[]`) List of Policies (to be provisioned) to be attached to Instance profile"
-  default = []
+variable "create_instance_profile_role" {
+    description = "(Optional) Decide to create new role for Instance Profile or to use existing IAMrole"
+    type        = bool
+    default     = true
 }
 
-variable "instance_profile_policy_arns" {
-  description = "(Optional, default `[]`) List of Policy ARNs (Already provisioned) to be attached to Instance profile"
+variable "instance_profile_role_arn" {
+    description = "(Optional) ARN of the IAM role if `craete_role` is false"
+    type        = string  
+    default     = ""
+}
+
+variable "instance_profile_policies" {
+  description = "(Optional, default `[]`) List of Policies (to be provisioned) to be attached to Instance profile"
   default = []
 }
 
