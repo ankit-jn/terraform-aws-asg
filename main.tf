@@ -28,8 +28,8 @@ resource aws_launch_template "this" {
     dynamic "iam_instance_profile" {
         for_each = var.create_instance_profile ? [1] : []
         content {
-            name = aws_iam_instance_profile.this[0].arn
-            arn  = var.instance_profile_name
+            arn     = aws_iam_instance_profile.this[0].arn
+            name    = var.instance_profile_name
         }
   }
 }
