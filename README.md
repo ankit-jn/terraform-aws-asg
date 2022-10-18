@@ -59,8 +59,8 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="user_data"></a> [user_data](#input\_user_data) | The Base64-encoded user data to provide when launching the instance | `string` |  | no |  |
 | <a name="health_check_type"></a> [health_check_type](#input\_health_check_type) | `EC2` or `ELB`. Controls how health checking is done | `string` |  | no |  |
 | <a name="block_device_mappings"></a> [block_device_mappings](#block\_device\_mappings) | List of Volumes to attach to the instance besides the volumes specified by the AMI | `string` |  | no |  |
-| <a name="cpu_options"></a> [cpu_options](#block\_cpu\_options) | The CPU options Map for the instance | `map(number)` |  | no |  |
-| <a name="cpu_credits"></a> [cpu_credits](#block\_cpu\_credits) | CPU Credit specification, CPU Credits can be `standard` or `unlimited` | `string` |  | no |  |
+| <a name="cpu_options"></a> [cpu_options](#cpu\_options) | The CPU options Map for the instance | `map(number)` |  | no |  |
+| <a name="cpu_credits"></a> [cpu_credits](#cpu\_credits) | CPU Credit specification, CPU Credits can be `standard` or `unlimited` | `string` |  | no |  |
 
 #### Instance Profile Specific Properties
 
