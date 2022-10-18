@@ -181,9 +181,21 @@ EOF
 }
 
 variable "metrics_granularity" {
-  description = "Granularity to associate with the metrics to collect. The only valid value is `1Minute`"
-  type        = string
-  default     = "1Minute"
+    description = "Granularity to associate with the metrics to collect. The only valid value is `1Minute`"
+    type        = string
+    default     = "1Minute"
+}
+
+variable "use_mixed_instances_policy" {
+    description = "Flag to decide if multiple launch targets should be selected by ASG"
+    type        = bool
+    default     = false
+}
+
+variable "mixed_instances_policy" {
+  description = "Configurations to define launch targets for Auto Scaling groups."
+  type        = any
+  default     = {}
 }
 
 ##########################################

@@ -31,10 +31,53 @@ resource aws_autoscaling_group "this" {
     enabled_metrics         = var.enabled_metrics
     metrics_granularity     = var.metrics_granularity
     
-    launch_template {
-        name    = aws_launch_template.this.name
-        version = aws_launch_template.this.latest_version
+    dynamic "launch_template" {
+        for_each = var.use_mixed_instances_policy ? [] : [1]
+
+        content {
+            name    = aws_launch_template.this.name
+            version = aws_launch_template.this.latest_version
+        }
     }
+
+     dynamic "mixed_instances_policy" {
+        for_each = var.use_mixed_instances_policy ? [1] : [0]
+
+        content {
+
+            launch_template {
+                
+                launch_template_specification {
+                    launch_template_name    = aws_launch_template.this.name
+                    version = aws_launch_template.this.latest_version
+                }
+                
+                dynamic "override" {
+                    for_each = lookup(var.mixed_instances_policy, "override", [])
+
+                    content {
+                        instance_type     = try(override.value.instance_type, null)
+                        weighted_capacity = try(override.value.weighted_capacity, null)
+                    }
+
+                }
+            }
+
+            dynamic "instances_distribution" {
+                for_each = length(keys(lookup(var.mixed_instances_policy, "instances_distribution", {}))) > 0 ? [1] : []
+
+                content {
+                    on_demand_allocation_strategy            = lookup(var.mixed_instances_policy.instances_distribution, "on_demand_allocation_strategy", "prioritized")
+                    on_demand_base_capacity                  = lookup(var.mixed_instances_policy.instances_distribution, "on_demand_base_capacity", 0)
+                    on_demand_percentage_above_base_capacity = lookup(var.mixed_instances_policy.instances_distribution, "on_demand_percentage_above_base_capacity", 100)
+                    spot_allocation_strategy                 = lookup(var.mixed_instances_policy.instances_distribution, "spot_allocation_strategy", "lowest-price")
+                    spot_instance_pools                      = lookup(var.mixed_instances_policy.instances_distribution, "spot_instance_pools", 0)
+                    spot_max_price                           = lookup(var.mixed_instances_policy.instances_distribution, "spot_max_price", "")
+                }
+            }
+
+        }
+     }
 
     dynamic "tag" {
         for_each = merge(var.default_tags, var.asg_tags)
