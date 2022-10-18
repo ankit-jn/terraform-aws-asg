@@ -126,25 +126,25 @@ Policy content to be add to the new policy (i.e. the policy for which arn is not
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="override"></a> [override](#override\_block) | List of nested arguments provides the ability to specify multiple instance types. | `list(any)` |  | no |  |
-| <a name="instances_distribution"></a> [instances_distribution](#\instances\_distribution\_block) | Nested argument containing settings on how to mix on-demand and Spot instances in the Auto Scaling group | `map(any)` |  | no |  |
+| <a name="instances_distribution"></a> [instances_distribution](#instances\_distribution\_block) | Nested argument containing settings on how to mix on-demand and Spot instances in the Auto Scaling group | `map(any)` |  | no |  |
 
 #### override_block
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="instance_type"></a> [instance_type](#override\_instance\_type) | Override the instance type in the Launch Template. | `string` |  | yes |  |
-| <a name="weighted_capacity"></a> [weighted_capacity](#override\_weighted\_capacity) | Number of capacity units, which gives the instance type a proportional weight to other instance types. | `number` |  | no |  |
+| <a name="instance_type"></a> [instance_type](#input\_instance\_type) | Override the instance type in the Launch Template. | `string` |  | yes |  |
+| <a name="weighted_capacity"></a> [weighted_capacity](#input\_weighted\_capacity) | Number of capacity units, which gives the instance type a proportional weight to other instance types. | `number` |  | no |  |
 
 #### instances_distribution_block
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="on_demand_allocation_strategy"></a> [on_demand_allocation_strategy](#override\_on\_demand\_allocation\_strategy) | Strategy to use when launching on-demand instances. | `string` | `prioritized` | no |  |
-| <a name="on_demand_base_capacity"></a> [on_demand_base_capacity](#override\_on\_demand\_base\_capacity) | Absolute minimum amount of desired capacity that must be fulfilled by on-demand instances. | `number` | `0` | no |  |
-| <a name="on_demand_percentage_above_base_capacity"></a> [on_demand_percentage_above_base_capacity](#override\_on\_demand\_percentage\_above\_base\_capacity) | Percentage split between on-demand and Spot instances above the base on-demand capacity. | `number` | `100` | no |  |
-| <a name="spot_allocation_strategy"></a> [spot_allocation_strategy](#override\_spot\_allocation\_strategy) | How to allocate capacity across the Spot pools. | `string` | `lowest-price` | no |  |
-| <a name="spot_instance_pools"></a> [spot_instance_pools](#override\_spot\_instance\_pools) | Number of Spot pools per availability zone to allocate capacity. | `number` | `0` | no |  |
-| <a name="spot_max_price"></a> [spot_max_price](#override\_spot\_max\_price) | Maximum price per unit hour that the user is willing to pay for the Spot instances. | `string` | `""` | no |  |
+| <a name="on_demand_allocation_strategy"></a> [on_demand_allocation_strategy](#input\_on\_demand\_allocation\_strategy) | Strategy to use when launching on-demand instances. | `string` | `prioritized` | no |  |
+| <a name="on_demand_base_capacity"></a> [on_demand_base_capacity](#input\_on\_demand\_base\_capacity) | Absolute minimum amount of desired capacity that must be fulfilled by on-demand instances. | `number` | `0` | no |  |
+| <a name="on_demand_percentage_above_base_capacity"></a> [on_demand_percentage_above_base_capacity](#input\_on\_demand\_percentage\_above\_base\_capacity) | Percentage split between on-demand and Spot instances above the base on-demand capacity. | `number` | `100` | no |  |
+| <a name="spot_allocation_strategy"></a> [spot_allocation_strategy](#input\_spot\_allocation\_strategy) | How to allocate capacity across the Spot pools. | `string` | `lowest-price` | no |  |
+| <a name="spot_instance_pools"></a> [spot_instance_pools](#input\_spot\_instance\_pools) | Number of Spot pools per availability zone to allocate capacity. | `number` | `0` | no |  |
+| <a name="spot_max_price"></a> [spot_max_price](#input\_spot\_max\_price) | Maximum price per unit hour that the user is willing to pay for the Spot instances. | `string` | `""` | no |  |
 
 #### block_device_mappings
 
