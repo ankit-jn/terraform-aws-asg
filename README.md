@@ -39,33 +39,50 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="name"></a> [name](#input\_name) | Name of the Auto Scaling Group | `string` |  | yes |  |
-| <a name="min_size"></a> [min_size](#input\_min_size) | Minimum size of the Auto Scaling Group | `number` |  | yes |  |
-| <a name="max_size"></a> [max_size](#input\_max_size) | Maximum size of the Auto Scaling Group | `number` |  | yes |  |
-| <a name="desired_capacity"></a> [desired_capacity](#input\_desired_capacity) | The number of Amazon EC2 instances that should be running in ASG | `number` |  | no |  |
-| <a name="vpc_zone_identifier"></a> [vpc_zone_identifier](#input\_vpc_zone_identifier) | List of subnet IDs to launch resources in | `list(string)` |  | yes | <pre>[ "subnet-xxxxx......", "subnet-xxxx4747cv..." ] |
-| <a name="capacity_rebalance"></a> [capacity_rebalance](#input\_capacity_rebalance) | Whether capacity rebalance is enabled | `bool` | `false` | no |  |
-| <a name="default_cooldown"></a> [default_cooldown](#input\_default_cooldown) | Amount of time, in seconds, after a scaling activity completes before another scaling activity can start | `number` |  | no |  |
-| <a name="default_instance_warmup"></a> [default_instance_warmup](#input\_default_instance_warmup) | Amount of time, in seconds, until a newly launched instance can contribute to the Amazon CloudWatch metrics | `number` |  | no |  |
-| <a name="protect_from_scale_in"></a> [protect_from_scale_in](#input\_protect_from_scale_in) | Whether newly launched instances are automatically protected from termination by Amazon EC2 Auto Scaling when scaling in | `bool` | `false` | no |  |
+| <a name="min_size"></a> [min_size](#input\_min\_size) | Minimum size of the Auto Scaling Group | `number` |  | yes |  |
+| <a name="max_size"></a> [max_size](#input\_max\_size) | Maximum size of the Auto Scaling Group | `number` |  | yes |  |
+| <a name="desired_capacity"></a> [desired_capacity](#input\_desired\_capacity) | The number of Amazon EC2 instances that should be running in ASG | `number` |  | no |  |
+| <a name="capacity_rebalance"></a> [capacity_rebalance](#input\_capacity\_rebalance) | Whether capacity rebalance is enabled | `bool` | `false` | no |  |
+| <a name="vpc_zone_identifier"></a> [vpc_zone_identifier](#input\_vpc\_zone\_identifier) | List of subnet IDs to launch resources in | `list(string)` |  | yes | <pre>[<br>   "subnet-xxxxx......",<br>   "subnet-xxxx4747cv..."<br>] |
+| <a name="placement_group"></a> [placement_group](#input\_placement\_group) | The name of the placement group into which instances will be launched | `string` |  | no |  |
+| <a name="service_linked_role_arn"></a> [service_linked_role_arn](#input\_service\_linked\_role\_arn) | ARN of the service-linked IAM role that the ASG will use to invoke other AWS services | `string` |  | no |  |
+| <a name="suspended_processes"></a> [suspended_processes](#input\_suspended\_processes) | Allows deleting the Auto Scaling Group without waiting for all instances in the pool to terminate. | `list(string)` | `[]` | no |  |
+| <a name="termination_policies"></a> [termination_policies](#input\_termination\_policies) | Allows deleting the Auto Scaling Group without waiting for all instances in the pool to terminate. The Possible Values are: <br>`OldestInstance`<br>`NewestInstance`<br>`OldestLaunchConfiguration`<br>`ClosestToNextInstanceHour`<br>`OldestLaunchTemplate`<br>`AllocationStrategy`<br>`Default` | `list(string)` | `[]` | no |  |
+| <a name="force_delete"></a> [force_delete](#input\_force\_delete) | Allows deleting the Auto Scaling Group without waiting for all instances in the pool to terminate. | `bool` | `false` | no |  |
+| <a name="default_cooldown"></a> [default_cooldown](#input\_default\_cooldown) | Amount of time, in seconds, after a scaling activity completes before another scaling activity can start | `number` |  | no |  |
+| <a name="default_instance_warmup"></a> [default_instance_warmup](#input\_default\_instance\_warmup) | Amount of time, in seconds, until a newly launched instance can contribute to the Amazon CloudWatch metrics | `number` |  | no |  |
+| <a name="protect_from_scale_in"></a> [protect_from_scale_in](#input\_protect\_from\_scale\_in) | Whether newly launched instances are automatically protected from termination by Amazon EC2 Auto Scaling when scaling in | `bool` | `false` | no |  |
+| <a name="max_instance_lifetime"></a> [max_instance_lifetime](#input\_max\_instance\_lifetime) | Allows deleting the Auto Scaling Group without waiting for all instances in the pool to terminate. | `number` |  | no |  |
+| <a name="target_group_arns"></a> [target_group_arns](#input\_target\_group\_arns) | Set of `aws_alb_target_group` ARNs, for use with Application or Network Load Balancing | `[]` | no |  |
+| <a name="health_check_type"></a> [health_check_type](#input\_health\_check\_type) | `EC2` or `ELB`. Controls how health checking is done | `string` |  | no |  |
+| <a name="health_check_grace_period"></a> [health_check_grace_period](#input\_health\_check\_grace\_period) | `EC2` or `ELB`. Controls how health checking is done | `number` | `300` | no |  |
+| <a name="min_elb_capacity"></a> [min_elb_capacity](#input\_min\_elb\_capacity) | Setting this causes Terraform to wait for this number of instances to show up healthy in the ELB only on creation. Updates will not wait on ELB instance number changes | `number` |  | no |  |
+| <a name="wait_for_elb_capacity"></a> [wait_for_elb_capacity](#input\_wait\_for\_elb\_capacity) | Setting this will cause Terraform to wait for exactly this number of healthy instances in all attached load balancers on both create and update operations. Takes precedence over `min_elb_capacity` behavior. | `number` |  | no |  |
+| <a name="wait_for_capacity_timeout"></a> [wait_for_capacity_timeout](#input\_wait\_for\_capacity\_timeout) | A maximum duration that Terraform should wait for ASG instances to be healthy before timing out. Setting this to '0' causes Terraform to skip all Capacity Waiting behavior. | `number` |  | no |  |
+| <a name="enabled_metrics"></a> [enabled_metrics](#input\_enabled\_metrics) | List of metrics to collect. The possible Values are:<br>`GroupDesiredCapacity`<br>`GroupInServiceCapacity`<br>`GroupPendingCapacity`<br>`GroupMinSize`<br>`GroupMaxSize`<br>`GroupInServiceInstances`<br>`GroupPendingInstances`<br>`GroupStandbyInstances`<br>`GroupStandbyCapacity`<br>`GroupTerminatingCapacity`<br>`GroupTerminatingInstances`<br>`GroupTotalCapacity`<br>`GroupTotalInstances`<br> | `list(string)` | `[]`  | no |  |
+| <a name="metrics_granularity"></a> [metrics_granularity](#input\_metrics\_granularity) | Granularity to associate with the metrics to collect. The only valid value is `1Minute` | `string` | `1Minute` | no |  |
 
 #### Launch Template Specific Properties
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="launch_template_name"></a> [launch_template_name](#input\_launch_template_name) | The name of the launch template | `string` | `<ASG Name>-template` | no |  |
-| <a name="launch_template_description"></a> [launch_template_description](#input\_launch_template_description) | Description of the launch template | `string` |  | no |  |
-| <a name="instance_type"></a> [instance_type](#input\_instance_type) | The type of the instance | `string` |  | yes |  |
-| <a name="image_id"></a> [image_id](#input\_image_id) | The AMI from which to launch the instance | `string` |  | yes |  |
-| <a name="user_data"></a> [user_data](#input\_user_data) | The Base64-encoded user data to provide when launching the instance | `string` |  | no |  |
-| <a name="health_check_type"></a> [health_check_type](#input\_health_check_type) | `EC2` or `ELB`. Controls how health checking is done | `string` |  | no |  |
+| <a name="launch_template_name"></a> [launch_template_name](#input\_launch\_template\_name) | The name of the launch template | `string` | `<ASG Name>-template` | no |  |
+| <a name="launch_template_description"></a> [launch_template_description](#input\_launch\_template\_description) | Description of the launch template | `string` |  | no |  |
+| <a name="instance_type"></a> [instance_type](#input\_instance\_type) | The type of the instance | `string` |  | yes |  |
+| <a name="image_id"></a> [image_id](#input\_image\_id) | The AMI from which to launch the instance | `string` |  | yes |  |
 | <a name="block_device_mappings"></a> [block_device_mappings](#block\_device\_mappings) | List of Volumes to attach to the instance besides the volumes specified by the AMI | `list(any)` | `[]` | no |  |
 | <a name="cpu_options"></a> [cpu_options](#cpu\_options) | The CPU options Map for the instance | `map(number)` | `{}` | no |  |
 | <a name="credit_specifcation"></a> [credit_specifcation](#credit_specifcation) | Instance Credit specification | `map(string)` | `{}` | no |  |
 | <a name="default_version"></a> [default_version](#input\_default\_version) | Default Version of the launch template. | `string` |  | no |  |
 | <a name="disable_api_stop"></a> [disable_api_stop](#input\_disable\_api\_stop) | If true, enables EC2 Instance Stop Protection. | `bool` | `false` | no |  |
-| <a name="disable_api_termination"></a> [disable_api_termination](#input\_disable_api_termination) | If true, enables EC2 Instance Termination Protection | `bool` | `false` | no |  |
+| <a name="disable_api_termination"></a> [disable_api_termination](#input\_disable\_api\_termination) | If true, enables EC2 Instance Termination Protection | `bool` | `false` | no |  |
 | <a name="ebs_optimized"></a> [ebs_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `false` | no |  |
 | <a name="elastic_gpu_specifications"></a> [elastic_gpu_specifications](#elastic\_gpu\_specifications) | The Elastic GPU Specification Map | `map(string)` | `{}` | no |  |
+| <a name="enable_monitoring"></a> [enable_monitoring](#input\_enable\_monitoring) | Flag to decide if launched EC2 instance will have detailed monitoring enabled? | `bool` | `false` | no |  |
+| <a name="instance_initiated_shutdown_behavior"></a> [instance_initiated_shutdown_behavior](#input\_instance\_initiated\_shutdown\_behavior) | Shutdown behavior for the instance. Possible Values: `stop` or `terminate`. | `string` | `"stop"` | no |  |
+| <a name="ram_disk_id"></a> [ram_disk_id](#input\_ram\_disk\_id) | The ID of the RAM disk | `string` |  | no |  |
+| <a name="user_data"></a> [user_data](#input\_user\_data) | The Base64-encoded user data to provide when launching the instance | `string` |  | no |  |
+| <a name="vpc_security_group_ids"></a> [vpc_security_group_ids](#input\_vpc\_security\_group\_ids) | A list of security group IDs to associate with. | `list(string)` | `[]` | no |  |
 
 #### Instance Profile Specific Properties
 
@@ -75,15 +92,18 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="instance_profile_name"></a> [instance_profile_name](#input\_instance_profile_name) | The name of the instance profile | `string` | `<ASG Name>-instance-profile` | no |  |
 | <a name="instance_profile_path"></a> [instance_profile_path](#input\_instance_profile_path) | Path to the instance profile | `string` | `"/"` | no |  |
 | <a name="create_instance_profile_role"></a> [create_instance_profile_role](#input\_create_instance_profile_role) | Flag to decide if new role for Instance Profile is required or to use existing IAM Role | `bool` | `true` | no |  |
-| <a name="instance_profile_role_name"></a> [instance_profile_role_name](#input\_instance_profile_role_arn) | Name of the IAM role if `create_instance_profile_role` is false | `string` |  | no |  |
+| <a name="instance_profile_role_name"></a> [instance_profile_role_name](#input\_instance_profile_role_arn) | Name of the IAM role if `create_instance_profile_role` is false | `string` | `<ASG Name>-instance-profile-role` | no |  |
 | <a name="instance_profile_policies"></a> [instance_profile_policies](#instance_profile_policy) | List of Policies (to be provisioned) to be attached to Instance profile | `list` |  | no | <pre>[<br>   {<br>     "name" = "arjstack-custom-policy"<br>   },<br>   {<br>     "name"  = "AWSCloudTrail_ReadOnlyAccess"<br>     "arn"   = "arn:aws:iam::aws:policy/AWSCloudTrail_ReadOnlyAccess"<br>   }<br>]<br> |
 
 #### Tags Specific Properties
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="default_tags"></a> [default_tags](#input\_default_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no |  |
-| <a name="instance_profile_tags"></a> [instance_profile_tags](#input\_instance_profile_tags) | A map of tags to assign to Instance profile. | `map` | `{}` | no |  |
+| <a name="default_tags"></a> [default_tags](#input\_default\_tags) | A map of tags to assign to all the resource. | `map(string)` | `{}` | no |  |
+| <a name="asg_tags"></a> [asg_tags](#input\_asg\_tags) | A map of tags to assign to Auto Scaling Group. | `map(string)` | `{}` | no |  |
+| <a name="instance_profile_tags"></a> [instance_profile_tags](#input\_instance\_profile\_tags) | A map of tags to assign to Instance profile and Role. | `map(string)` | `{}` | no |  |
+| <a name="launch_template_tags"></a> [launch_template_tags](#input\_launch\_template\_tags) | A map of tags to assign to Laucnh Template. | `map(string)` | `{}` | no |  |
+| <a name="as_resource_tags"></a> [as_resource_tags](#input\_as\_resource\_tags) | A map of tags to assign to the resources during launch. | `map(string)` | `{}` | no |  |
 
 
 ## Nested Configuration Maps:  

@@ -17,9 +17,15 @@ variable "max_size" {
 }
 
 variable "desired_capacity" {
-  description = "The number of Amazon EC2 instances that should be running in ASG"
-  type        = number
-  default     = null
+    description = "The number of Amazon EC2 instances that should be running in ASG"
+    type        = number
+    default     = null
+}
+
+variable "capacity_rebalance" {
+    description = "(Optional) Whether capacity rebalance is enabled."
+    type        = bool
+    default     = false
 }
 
 variable "vpc_zone_identifier" {
@@ -27,10 +33,56 @@ variable "vpc_zone_identifier" {
     type        = list(string)
 }
 
-variable "capacity_rebalance" {
-    description = "(Optional) Whether capacity rebalance is enabled."
-    type        = bool
-    default     = false
+variable "placement_group" {
+  description = "The name of the placement group into which instances will be launched"
+  type        = string
+  default     = null
+}
+
+variable "service_linked_role_arn" {
+  description = "ARN of the service-linked IAM role that the ASG will use to invoke other AWS services"
+  type        = string
+  default     = null
+}
+
+variable "suspended_processes" {
+  description = <<EOF
+(Optional) List of processes to suspend for ASG. 
+The allowed values are as follows:
+  `Launch`, 
+  `Terminate`, 
+  `HealthCheck`, 
+  `ReplaceUnhealthy`, 
+  `AZRebalance`, 
+  `AlarmNotification`, 
+  `ScheduledActions`, 
+  `AddToLoadBalancer`, 
+  `InstanceRefresh`.
+EOF
+  type        = list(string)
+  default     = []
+}
+
+variable "termination_policies" {
+  description = <<EOF
+(Optional) List of policies to decide how the instances in ASG should be terminated. 
+The allowed values are as follows: 
+  `OldestInstance`, 
+  `NewestInstance`, 
+  `OldestLaunchConfiguration`, 
+  `ClosestToNextInstanceHour`, 
+  `OldestLaunchTemplate`, 
+  `AllocationStrategy`, 
+  `Default`
+EOF
+  type        = list(string)
+  default     = []
+}
+
+variable "force_delete" {
+  description = "(Optional) Allows deleting the Auto Scaling Group without waiting for all instances in the pool to terminate."
+  type        = bool
+  default     = false
 }
 
 variable "default_cooldown" {
@@ -49,6 +101,89 @@ variable "protect_from_scale_in" {
   description = "(Optional) Whether newly launched instances are automatically protected from termination by Amazon EC2 Auto Scaling when scaling in."
   type        = bool
   default     = false
+}
+
+variable "max_instance_lifetime" {
+  description = <<EOF
+The maximum amount of time, in seconds, that an instance can be in service.
+Possible values: Either `0` or between `86400` and `31536000`
+EOF
+  type        = number
+  default     = null
+}
+
+variable "target_group_arns" {
+  description = "Set of `aws_alb_target_group` ARNs, for use with Application or Network Load Balancing"
+  type        = list(string)
+  default     = []
+}
+
+variable "min_elb_capacity" {
+  description = <<EOF
+Setting this causes Terraform to wait for this number of instances to show up healthy 
+in the ELB only on creation. Updates will not wait on ELB instance number changes
+EOF
+  type        = number
+  default     = null
+}
+
+variable "wait_for_elb_capacity" {
+  description = <<EOF
+Setting this will cause Terraform to wait for exactly this number of healthy instances 
+in all attached load balancers on both create and update operations. 
+Takes precedence over `min_elb_capacity` behavior.
+EOF
+  type        = number
+  default     = null
+}
+
+variable "wait_for_capacity_timeout" {
+  description = <<EOF
+A maximum duration that Terraform should wait for ASG instances to be healthy before timing out.
+Setting this to '0' causes Terraform to skip all Capacity Waiting behavior.
+EOF
+  type        = string
+  default     = null
+}
+
+variable "health_check_type" {
+  description = "Controls how health checking is done. Possible Values: `EC2` or `ELB`."
+  type        = string
+  default     = null
+}
+
+variable "health_check_grace_period" {
+  description = "Time in seconds, after instance comes into service before checking health"
+  type        = number
+  default     = 300
+}
+
+variable "enabled_metrics" {
+  description = <<EOF
+List of metrics to collect. 
+The allowed values are as follows:
+`GroupDesiredCapacity` 
+`GroupInServiceCapacity`
+`GroupPendingCapacity`
+`GroupMinSize`
+`GroupMaxSize`
+`GroupInServiceInstances`
+`GroupPendingInstances`
+`GroupStandbyInstances`
+`GroupStandbyCapacity`
+`GroupTerminatingCapacity`
+`GroupTerminatingInstances`
+`GroupTotalCapacity`
+`GroupTotalInstances`
+EOF
+  type        = list(string)
+  default     = []
+}
+
+variable "metrics_granularity" {
+  description = "Granularity to associate with the metrics to collect. The only valid value is `1Minute`"
+  type        = string
+  default     = "1Minute"
 }
 
 ##########################################
@@ -74,18 +209,6 @@ variable "instance_type" {
 variable "image_id" {
     description = "(Required) The AMI from which to launch the instance."
     type        = string
-}
-
-variable "user_data" {
-  description = "The Base64-encoded user data to provide when launching the instance"
-  type        = string
-  default     = null
-}
-
-variable "health_check_type" {
-  description = "`EC2` or `ELB`. Controls how health checking is done"
-  type        = string
-  default     = null
 }
 
 variable "block_device_mappings" {
@@ -147,7 +270,7 @@ variable "disable_api_stop" {
 }
 
 variable "disable_api_termination" {
-    description = "(Optional) If true, enables EC2 Instance Termination Protection"
+    description = "(Optional) If true, enables EC2 Instance Termination Protection."
     type        = bool
     default     = false
 }
@@ -166,6 +289,36 @@ gpu_type: The Elastic GPU Type
 EOF
   type        = map(string)
   default     = {}
+}
+
+variable "enable_monitoring" {
+  description = "(Optional) Flag to decide if launched EC2 instance will have detailed monitoring enabled?"
+  type        = bool
+  default     = false
+}
+
+variable "instance_initiated_shutdown_behavior" {
+  description = "Shutdown behavior for the instance. Possible Values: `stop` or `terminate`."
+  type        = string
+  default     = "stop"
+}
+
+variable "ram_disk_id" {
+  description = "(Optional) The ID of the RAM disk"
+  type        = string
+  default     = null
+}
+
+variable "user_data" {
+  description = "The Base64-encoded user data to provide when launching the instance"
+  type        = string
+  default     = null
+}
+
+variable "vpc_security_group_ids" {
+    description = "(Optional) A list of security group IDs to associate with."
+    type        = list(string)
+    default     = []
 }
 
 ##########################################
@@ -211,12 +364,30 @@ variable "instance_profile_policies" {
 ##########################################
 variable "default_tags" {
   description = "(Optional) A map of tags to assign to all the resource."
-  type        = map(any)
+  type        = map(string)
+  default     = {}
+}
+
+variable "asg_tags" {
+  description = "(Optional) A map of tags to assign to Auto Scaling Group."
+  type        = map(string)
   default     = {}
 }
 
 variable "instance_profile_tags" {
   description = "(Optional) A map of tags to assign to Instance Profile and role."
-  type        = map(any)
+  type        = map(string)
   default     = {}
+}
+
+variable "launch_template_tags" {
+  description = "(Optional) A map of tags to assign to Launch Template"
+  type        = map(string)
+  default     = {}
+}
+
+variable "as_resource_tags" {
+  description = "(Optional) A map of tags to assign to the resources during launch"
+  type        = list(any)
+  default     = []
 }

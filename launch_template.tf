@@ -4,15 +4,21 @@ resource aws_launch_template "this" {
     image_id    = var.image_id
 
     instance_type = var.instance_type
-    user_data   = var.user_data
-
+    
     default_version = var.default_version
 
     disable_api_stop = var.disable_api_stop
     disable_api_termination = var.disable_api_termination
+
     ebs_optimized = var.ebs_optimized
 
+    instance_initiated_shutdown_behavior = var.instance_initiated_shutdown_behavior
 
+    ram_disk_id = var.ram_disk_id    
+    user_data   = var.user_data
+
+    vpc_security_group_ids = var.vpc_security_group_ids
+    
     ## Additional Volumes to be attached with EC2 instance
     dynamic "block_device_mappings" {
         for_each = var.block_device_mappings
@@ -64,10 +70,34 @@ resource aws_launch_template "this" {
         }
     }
 
+    ## Instance Profile for the Instances launched by the ASG
     dynamic "iam_instance_profile" {
         for_each = var.create_instance_profile ? [1] : []
         content {
             arn     = aws_iam_instance_profile.this[0].arn
         }
     }
+
+    dynamic "monitoring" {
+        for_each = var.enable_monitoring ? [1] : []
+     
+        content {
+           enabled = var.enable_monitoring
+        }
+    }
+
+    ## Tags to assign to the resources during launch
+    dynamic "tag_specifications" {
+        for_each = var.as_resource_tags
+        
+        content {
+            resource_type = tag_specifications.value.resource_type
+            tags = merge(var.default_tags,
+                            var.launch_template_tags, 
+                            lookup(tag_specifications.value, "tags", {}))
+        }
+    }
+
+    ## Tags to assign to Launch Template
+    tags = merge(var.default_tags, var.launch_template_tags)
 }
