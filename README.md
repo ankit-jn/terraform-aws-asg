@@ -58,9 +58,14 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="image_id"></a> [image_id](#input\_image_id) | The AMI from which to launch the instance | `string` |  | yes |  |
 | <a name="user_data"></a> [user_data](#input\_user_data) | The Base64-encoded user data to provide when launching the instance | `string` |  | no |  |
 | <a name="health_check_type"></a> [health_check_type](#input\_health_check_type) | `EC2` or `ELB`. Controls how health checking is done | `string` |  | no |  |
-| <a name="block_device_mappings"></a> [block_device_mappings](#block\_device\_mappings) | List of Volumes to attach to the instance besides the volumes specified by the AMI | `list(any)` |  | no |  |
-| <a name="cpu_options"></a> [cpu_options](#cpu\_options) | The CPU options Map for the instance | `map(number)` |  | no |  |
-| <a name="cpu_credits"></a> [cpu_credits](#cpu\_credits) | CPU Credit specification, CPU Credits can be `standard` or `unlimited` | `string` |  | no |  |
+| <a name="block_device_mappings"></a> [block_device_mappings](#block\_device\_mappings) | List of Volumes to attach to the instance besides the volumes specified by the AMI | `list(any)` | `[]` | no |  |
+| <a name="cpu_options"></a> [cpu_options](#cpu\_options) | The CPU options Map for the instance | `map(number)` | `{}` | no |  |
+| <a name="credit_specifcation"></a> [credit_specifcation](#credit_specifcation) | Instance Credit specification | `map(string)` | `{}` | no |  |
+| <a name="default_version"></a> [default_version](#input\_default\_version) | Default Version of the launch template. | `string` |  | no |  |
+| <a name="disable_api_stop"></a> [disable_api_stop](#input\_disable\_api\_stop) | If true, enables EC2 Instance Stop Protection. | `bool` | `false` | no |  |
+| <a name="disable_api_termination"></a> [disable_api_termination](#input\_disable_api_termination) | If true, enables EC2 Instance Termination Protection | `bool` | `false` | no |  |
+| <a name="ebs_optimized"></a> [ebs_optimized](#input\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized | `bool` | `false` | no |  |
+| <a name="elastic_gpu_specifications"></a> [elastic_gpu_specifications](#elastic\_gpu\_specifications) | The Elastic GPU Specification Map | `map(string)` | `{}` | no |  |
 
 #### Instance Profile Specific Properties
 
@@ -121,6 +126,17 @@ Policy content to be add to the new policy (i.e. the policy for which arn is not
 | <a name="core_count"></a> [core_count](#input\_core\_count) | The number of CPU cores for the instance. | `number` | `1` | no |  |
 | <a name="threads_per_core"></a> [threads_per_core](#input\_threads\_per\_core) | The number of threads per CPU core. | `number` | `2` | no |  |
 
+#### credit_specifcation
+
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
+| <a name="cpu_credits"></a> [cpu_credits](#input\_cpu\_credits) | The credit option for CPU usage. CPU Credits can be `standard` or `unlimited`. | `string` |  | yes |  |
+
+#### elastic_gpu_specifications
+
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
+| <a name="gpu_type"></a> [gpu_type](#input\_gpu\_type) | The Elastic GPU Type | `string` |  | yes |  |
 
 ## Outputs
 

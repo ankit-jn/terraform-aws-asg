@@ -124,15 +124,50 @@ EOF
   default     = {}
 }
 
-variable "cpu_credits" {
-    description = "CPU Credit specification"
-    type        = string
-    default     = ""
+variable "credit_specifcation" {
+    description = "Instance Credit specification"
+    type        = map(string)
+    default     = {}
     validation {
-        condition     = (var.cpu_credits == "") ? true : (var.cpu_credits == "standard" ||  var.cpu_credits == "unlimited")
+        condition = (lookup(var.credit_specifcation, "cpu_credits", "") == "") ? true : (var.credit_specifcation.cpu_credits == "standard" ||  var.credit_specifcation.cpu_credits == "unlimited")
         error_message = "CPU Credits can be `standard` or `unlimited`."
     }
 }
+
+variable "default_version" {
+    description = "Default Version of the launch template."
+    type        = string
+    default     = null
+}
+
+variable "disable_api_stop" {
+    description = "(Optional) If true, enables EC2 Instance Stop Protection."
+    type        = bool
+    default     = false
+}
+
+variable "disable_api_termination" {
+    description = "(Optional) If true, enables EC2 Instance Termination Protection"
+    type        = bool
+    default     = false
+}
+
+variable "ebs_optimized" {
+  description = "(Optional) If true, the launched EC2 instance will be EBS-optimized"
+  type        = bool
+  default     = false
+}
+
+variable "elastic_gpu_specifications" {
+  description = <<EOF
+The Elastic GPU Specification Map
+
+gpu_type: The Elastic GPU Type
+EOF
+  type        = map(string)
+  default     = {}
+}
+
 ##########################################
 ### Instance Profile Specific Variables
 ##########################################

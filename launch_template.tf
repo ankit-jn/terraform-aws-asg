@@ -6,6 +6,12 @@ resource aws_launch_template "this" {
     instance_type = var.instance_type
     user_data   = var.user_data
 
+    default_version = var.default_version
+
+    disable_api_stop = var.disable_api_stop
+    disable_api_termination = var.disable_api_termination
+    ebs_optimized = var.ebs_optimized
+
 
     ## Additional Volumes to be attached with EC2 instance
     dynamic "block_device_mappings" {
@@ -42,10 +48,19 @@ resource aws_launch_template "this" {
     
     ## Credit specification of EC2 Instance
     dynamic "credit_specification" {
-        for_each = can(var.cpu_credits) && var.cpu_credits != "" ? [1] : []
+        for_each = length(keys(var.credit_specifcation)) > 0 ? [1] : []
         
         content {
-          cpu_credits = var.cpu_credits
+          cpu_credits = var.credit_specifcation.cpu_credits
+        }
+    }
+
+    ## Credit specification of EC2 Instance
+    dynamic "elastic_gpu_specifications" {
+        for_each = length(keys(var.elastic_gpu_specifications)) > 0 ? [1] : []
+        
+        content {
+          type = var.elastic_gpu_specifications.gpu_type
         }
     }
 
