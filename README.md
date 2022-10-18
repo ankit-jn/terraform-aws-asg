@@ -58,6 +58,9 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="image_id"></a> [image_id](#input\_image_id) | The AMI from which to launch the instance | `string` |  | yes |  |
 | <a name="user_data"></a> [user_data](#input\_user_data) | The Base64-encoded user data to provide when launching the instance | `string` |  | no |  |
 | <a name="health_check_type"></a> [health_check_type](#input\_health_check_type) | `EC2` or `ELB`. Controls how health checking is done | `string` |  | no |  |
+| <a name="block_device_mappings"></a> [block_device_mappings](#block\_device\_mappings) | List of Volumes to attach to the instance besides the volumes specified by the AMI | `string` |  | no |  |
+| <a name="cpu_options"></a> [cpu_options](#block\_cpu\_options) | The CPU options Map for the instance | `map(number)` |  | no |  |
+| <a name="cpu_credits"></a> [cpu_credits](#block\_cpu\_credits) | CPU Credit specification, CPU Credits can be `standard` or `unlimited` | `string` |  | no |  |
 
 #### Instance Profile Specific Properties
 
@@ -86,11 +89,38 @@ Policy content to be add to the new policy (i.e. the policy for which arn is not
 &nbsp;&nbsp;&nbsp;- JSON document must be placed in the directory `policies` under root directory.<br>
 &nbsp;&nbsp;&nbsp;- The naming format of the file: <Value set in `name` property>.json
 
-
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="name"></a> [name](#input\_name) | Policy Name | `string` |  | yes |  |
 | <a name="arn"></a> [arn](#input\_arn) | Policy ARN (if existing policy) | `string` |  | no |  |
+
+#### block_device_mappings
+
+- `ebs_encrypted` must be set to true when `ebs_kms_key_id` is set.
+- `ebs_iops` must be set with a `ebs_volume_type` of "io1/io2".
+- Either one of `ebs_encrypted` as `true` and `ebs_snapshot_id` can be used
+
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
+| <a name="name"></a> [name](#input\_name) | The name of the device to mount. | `string` |  | yes |  |
+| <a name="no_device"></a> [name](#input\_no\_device) | Suppresses the specified device included in the AMI's block device mapping. | `number` |  | no |  |
+| <a name="virtual_name"></a> [virtual_name](#input\_virtual\_name) | The Instance Store Device Name | `string` |  | no |  |
+| <a name="ebs_delete_on_termination"></a> [ebs_delete_on_termination](#input\_ebs\_delete\_on\_termination) | Whether the volume should be destroyed on instance termination. | `bool` | `false` | no |  |
+| <a name="ebs_encrypted"></a> [ebs_encrypted](#input\_ebs\_encrypted) | Enables EBS encryption on the volume | `bool` | `false` | no |  |
+| <a name="ebs_kms_key_id"></a> [ebs_kms_key_id](#input\_ebs\_kms\_key\_id) | The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. | `string` |  | no |  |
+| <a name="ebs_snapshot_id"></a> [ebs_snapshot_id](#input\_ebs\_snapshot\_id) | The Snapshot ID to mount. | `string` |  | no |  |
+| <a name="ebs_volume_size"></a> [ebs_volume_size](#input\_ebs\_volume\_size) | The size of the volume in gigabytes. | `number` |  | no |  |
+| <a name="ebs_volume_type"></a> [ebs_volume_type](#input\_ebs\_volume\_type) | The volume type | `string` | `gp2` | no |  |
+| <a name="ebs_iops"></a> [ebs_iops](#input\_ebs\_iops) | The amount of provisioned IOPS | `number` |  | no |  |
+| <a name="ebs_throughput"></a> [ebs_throughput](#input\_ebs\_throughput) | The throughput to provision for a gp3 volume in MiB/s (specified as an integer, e.g., 500), with a maximum of 1,000 MiB/s. | `number` |  | no |  |
+
+#### cpu_options
+
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
+| <a name="core_count"></a> [core_count](#input\_core\_count) | The number of CPU cores for the instance. | `number` | `1` | no |  |
+| <a name="threads_per_core"></a> [threads_per_core](#input\_threads\_per\_core) | The number of threads per CPU core. | `number` | `2` | no |  |
+
 
 ## Outputs
 

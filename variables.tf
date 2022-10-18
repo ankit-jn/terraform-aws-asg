@@ -88,6 +88,51 @@ variable "health_check_type" {
   default     = null
 }
 
+variable "block_device_mappings" {
+  description = <<EOF
+List of Volumes to attach to the instance besides the volumes specified by the AMI 
+where each entry will be a map of the following properties:
+
+name: The name of the device to mount.
+no_device: Suppresses the specified device included in the AMI's block device mapping.
+virtual_name: (Optional) The Instance Store Device Name  (e.g., `ephemeral0`)
+ebs_delete_on_termination: (Optional, default `false`) Whether the volume should be destroyed on instance termination.
+ebs_encrypted: (Optional, default `false`) Enables EBS encryption on the volume
+ebs_kms_key_id: (Optional) The ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume.
+ebs_snapshot_id: The Snapshot ID to mount.
+ebs_volume_size: The size of the volume in gigabytes.
+ebs_volume_type: (optional, default `gp2`) The volume type
+ebs_iops: (Optional) The amount of provisioned IOPS
+ebs_throughput: (Optional) The throughput to provision for a gp3 volume in MiB/s (specified as an integer, e.g., 500), with a maximum of 1,000 MiB/s.
+
+1. `ebs_encrypted` must be set to true when `ebs_kms_key_id` is set.
+2. `ebs_iops` must be set with a `ebs_volume_type` of "io1/io2".
+3. Either one of `ebs_encrypted` as `true` and `ebs_snapshot_id` can be used
+EOF
+  type        = list(any)
+  default     = []
+}
+
+variable "cpu_options" {
+  description = <<EOF
+The CPU options Map for the instance with the following keys:
+
+core_count: (required) The number of CPU cores for the instance.
+threads_per_core:  (Optional, default 2) The number of threads per CPU core.
+EOF
+  type        = map(number)
+  default     = {}
+}
+
+variable "cpu_credits" {
+    description = "CPU Credit specification"
+    type        = string
+    default     = ""
+    validation {
+        condition     = (var.cpu_credits == "") ? true : (var.cpu_credits == "standard" ||  var.cpu_credits == "unlimited")
+        error_message = "CPU Credits can be `standard` or `unlimited`."
+    }
+}
 ##########################################
 ### Instance Profile Specific Variables
 ##########################################
