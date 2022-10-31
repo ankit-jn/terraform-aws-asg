@@ -40,8 +40,8 @@ resource aws_autoscaling_group "this" {
         }
     }
 
-     dynamic "mixed_instances_policy" {
-        for_each = var.use_mixed_instances_policy ? [1] : [0]
+    dynamic "mixed_instances_policy" {
+        for_each = var.use_mixed_instances_policy ? [1] : []
 
         content {
 
@@ -77,7 +77,7 @@ resource aws_autoscaling_group "this" {
             }
 
         }
-     }
+    }
 
     dynamic "tag" {
         for_each = merge(var.default_tags, var.asg_tags)
