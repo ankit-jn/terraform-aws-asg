@@ -1,8 +1,8 @@
-# ARJ-Stack: AWS Auto Scaling Group Terraform module
+## ARJ-Stack: AWS Auto Scaling Group Terraform module
 
 A Terraform module for configuring Auto Scaling Groups
 
-## Resources
+### Resources
 This module features the following components to be provisioned with different combinations:
 
 - Auto Scaling Group [[aws_autoscaling_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group)]
@@ -14,24 +14,24 @@ This module features the following components to be provisioned with different c
     - IAM Role that will be used with Instance Profile
 - IAM Roles-Policy Attachments [[aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment)]
 
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.5 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.22.0 |
 
-## Providers
+### Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.22.0 |
 
-## Examples
+### Examples
 
 Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-examples/tree/main/aws-asg) for effectively utilizing this module.
 
-## Inputs
+### Inputs
 ---
 
 #### ASG Specific Properties
@@ -107,8 +107,7 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="launch_template_tags"></a> [launch_template_tags](#input\_launch\_template\_tags) | A map of tags to assign to Laucnh Template. | `map(string)` | `{}` | no |
 | <a name="as_resource_tags"></a> [as_resource_tags](#input\_as\_resource\_tags) | A map of tags to assign to the resources during launch. | `map(string)` | `{}` | no |
 
-
-## Nested Configuration Maps:  
+### Nested Configuration Maps:  
 
 #### instance_profile_policy
 
@@ -185,7 +184,7 @@ Policy content to be add to the new policy (i.e. the policy for which arn is not
 |:------|:------|:------|:------|:------:|
 | <a name="gpu_type"></a> [gpu_type](#input\_gpu\_type) | The Elastic GPU Type | `string` |  | yes |
 
-## Outputs
+### Outputs
 
 | Name | Type | Description |
 |:------|:------|:------|
@@ -194,7 +193,7 @@ Policy content to be add to the new policy (i.e. the policy for which arn is not
 | <a name="instance_profile_arn"></a> [instance_profile_arn](#output\_instance\_profile\_arn) | `string` | ARN of IAM Instance Profile |
 | <a name="launch_template"></a> [launch_template](#output\_launch\_template) | `map(string)` | Launch Template Details (`ID` and `ARN`) |
 
-## Authors
+### Authors
 
 Module is maintained by [Ankit Jain](https://github.com/ankit-jn) with help from [these professional](https://github.com/arjstack/terraform-aws-asg/graphs/contributors).
 
